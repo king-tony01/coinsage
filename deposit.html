@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>coinSaage</title>
+    <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.8/css/line.css">
+    <link rel="stylesheet" href="styles.css">
+    <!--swiper-->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css" />
+
+    <!--fonts-->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="asseets/css/deposit.css">
+<script src="asseets/js/deposit.js"></script>
+</head>
+<body>
+    <nav>
+        <div class="container  nav_container">
+            <a href="mainpage.html"><h4>coinSage</h4></a>
+            <ul class="nav_menu">
+                <li><a href="mainpage.html">Home</a></li>
+            </ul>
+            <button id="open-menu-btn"><i class="uil uil-bars"></i></button>
+            <button id="close-menu-btn"><i class="uil uil-multiply"></i></button>
+        </div>
+    </nav>
+    <!--end of nav-->
+    
+    <div class="main">
+            <input type="checkbox" id="chk" aria-hidden="true">
+            <div class="signup">
+                <form>
+                    <label for="chk" aria-hidden="true">DEPOSIT</label>
+                    <input type="text" name="txt" placeholder="Amount" required>
+                    <input type="text" name="email" placeholder="plan" required>
+                    <input type="text" name="password" placeholder="payment option" required>
+                    <button onclick="openPopup()">Deposit</button>
+                </form>
+            </div>
+            <div class="login">
+                <form>
+                    <label for="chk" aria-hidden="true">Withdraw</label>
+                    <input type="text" name="email" placeholder="Amount" required>
+                    <input type="text" name="pswd" placeholder="wallet address" required>
+                    <button onclick="openPopup()">Deposit</button>
+                </form>    
+            </div>
+    </div>
+    <div class="popup" id="popup">
+        <img src="asseets/images/success.png">
+        <h1>Success!</h1>
+        <p>Your transaction has been successfully submitted. Thanks!</p>
+        <button type="button" onclick="closePopup()">ok</button>
+    </div>
+
+    <script>
+        let popup = document.getElementById("popup");
+        function openPopup(){
+            popup.classList.add("open-popup")
+        };
+
+        function closePopup(){
+            popup.classList.remove("open-popup")
+        }
+    </script>
+
+
+    <script src="script.js"></script>
+    </body>
+    </html>

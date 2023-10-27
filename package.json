@@ -1,0 +1,29 @@
+{
+  "name": "coinsage",
+  "version": "1.0.0",
+  "description": "With over 175,000 investments under our management, $5 billion+ in assets under our administration, over 11 industry awards, we have made coinSage the safe haven for investors who want to trust their financial partner to be capable of helping them reach their financial goals in due time.",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js",
+    "dev": "nodemon server.js"
+  },
+  "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/king-tony01/coinsage.git"
+  },
+  "keywords": [
+    "Investment",
+    "Crypto"
+  ],
+  "author": "King tony",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/king-tony01/coinsage/issues"
+  },
+  "homepage": "https://github.com/king-tony01/coinsage#readme",
+  "dependencies": {
+    "bcrypt": "^5.1.1"
+  }
+}
