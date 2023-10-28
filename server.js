@@ -9,9 +9,7 @@ const PORT = process.env.PORT || 5100;
 const __filename = url.fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const server = http.createServer(async (req, res) => {
-  const routes = ["/", "/newuser", "/auth", "/signup", "/login"];
   const { pathname, query } = url.parse(req.url, true);
-  console.log(query.id);
   console.log(pathname);
   if (pathname.includes(".")) {
     serveType(pathname, res);
@@ -46,11 +44,25 @@ const server = http.createServer(async (req, res) => {
         req.on("end", async () => {
           try {
             const user = JSON.parse(body);
-            console.log(user);
-            res.writeHead(200, { "Content-Type": "application/json" });
+            res.writeHead(401, { "Content-Type": "application/json" });
             res.end(JSON.stringify(await createUser(user)));
           } catch (err) {
-            console.log(err);
+            res.writeHead(200, { "Content-Type": "application/json" });
+            res.end(JSON.stringify(err));
+          }
+        });
+        break;
+      case "/auth":
+        let dataBody;
+        req.on("data", (chunk) => {
+          dataBody = chunk;
+        });
+        req.on("end", async () => {
+          try {
+            const user = JSON.parse(dataBody);
+            res.writeHead(200, { "Content-Type": "application/json" });
+            res.end(JSON.stringify(await fetchUser(user, null)));
+          } catch (err) {
             res.writeHead(200, { "Content-Type": "application/json" });
             res.end(JSON.stringify(err));
           }
@@ -66,14 +78,11 @@ const server = http.createServer(async (req, res) => {
       case "/user":
         try {
           const id = query.id;
-          console.log(id);
           res.writeHead(200, { "Content-Type": "application/json" });
-          res.end(JSON.stringify(await fetchUser(id)));
+          res.end(JSON.stringify(await fetchUser(null, id)));
         } catch (err) {
-          console.log(err);
-          const id = query.id;
           res.writeHead(402, { "Content-Type": "application/json" });
-          res.end(JSON.stringify(await fetchUser(id)));
+          res.end(JSON.stringify(err));
         }
         break;
       default:

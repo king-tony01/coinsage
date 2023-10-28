@@ -22,17 +22,32 @@ export async function createUser(details) {
   let query = `INSERT INTO users(id, username, fullname, email, phone, user_password, country, invested, active_invest, completed, withdrawn, balance) VALUES("${id}", "${username}", "${fullname}",  "${email}", "${phone}", "${hashedPassword}", "${country}", 0, 0, 0, 0, 0)`;
   return new Promise(async (reject, resolve) => {
     try {
-      myDB.query(query, function (err, result, fields) {
+      myDB.query(exist, function (err, result, fields) {
         if (err) {
           reject({
             message: "Error occured while searching for user",
             stat: false,
           });
         }
-        resolve({
-          message: "Registration successful!",
-          stat: true,
-        });
+
+        if (result.length > 0) {
+          reject({
+            message:
+              "Email is already registered, please try again with a differnt email",
+            stat: false,
+          });
+        } else {
+          myDB.query(query, function (err, result, fields) {
+            if (err) {
+              reject(err);
+            } else {
+              resolve({
+                message: "Registration successful!",
+                stat: true,
+              });
+            }
+          });
+        }
       });
     } catch (err) {
       reject(err);
@@ -40,46 +55,62 @@ export async function createUser(details) {
   });
 }
 
-/*async function checkUser(email) {
-  let exist = `SELECT * FROM users WHERE email = "${email}"`;
-  return new Promise((resolve, reject) => {
-    myDB.query(exist, function (err, result, fields) {
-      if (result.length > 0) {
-        reject({
-          stat: true,
-        });
-        return;
-      } else {
-        resolve({
-          stat: false,
-        });
-      }
-    });
-  });
-}*/
-
-export function fetchUser(id) {
+export function fetchUser(user, id) {
   try {
-    if (!id) return;
-    const query = `SELECT * FROM users WHERE id = "${id}";`;
-    return new Promise((resolve, reject) => {
-      myDB.query(query, async function (err, results, fields) {
-        if (err) {
-          reject(err);
-        }
-        if (results.length == 0) {
-          reject({
-            message: "No user found in our records",
-            stat: false,
-          });
-        } else {
-          resolve({
-            data: results[0],
-            stat: true,
-          });
-        }
+    if (!user && !id) return;
+    if (user && id == null) {
+      const query = `SELECT * FROM users WHERE email = "${user.email}";`;
+      return new Promise((resolve, reject) => {
+        myDB.query(query, async function (err, results, fields) {
+          if (err) {
+            reject(err);
+          }
+          if (results.length > 0) {
+            const correctPassword = await bcrypt.compare(
+              user.password,
+              results[0].user_password
+            );
+            if (correctPassword) {
+              resolve({
+                data: results[0],
+                stat: true,
+              });
+            } else {
+              reject({
+                message:
+                  "Incorrect password, please calm down and remember your password before retrying again. Thank you.",
+                stat: false,
+              });
+            }
+          } else {
+            reject({
+              message: "No user found in our records",
+              stat: false,
+            });
+          }
+        });
       });
-    });
+    } else if (id && user == null) {
+      const query = `SELECT * FROM users WHERE id = "${id}";`;
+      return new Promise((resolve, reject) => {
+        myDB.query(query, async function (err, results, fields) {
+          if (err) {
+            reject(err);
+          }
+          if (results.length == 0) {
+            reject({
+              message: "No user found in our records",
+              stat: false,
+            });
+          } else {
+            resolve({
+              data: results[0],
+              stat: true,
+            });
+          }
+        });
+      });
+    }
   } catch (err) {
     throw err;
   }
