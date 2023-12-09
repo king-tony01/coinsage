@@ -3,7 +3,18 @@ import url from "url";
 import path from "path";
 import fs from "fs";
 import { serveType } from "./contentType.js";
-import { createUser, fetchUser } from "./private/database.js";
+import {
+  addWallet,
+  createUser,
+  deposit,
+  deposits,
+  fetchUser,
+  getAddresses,
+  getAll,
+  users,
+  wallets,
+} from "./private/database.js";
+import { deliverMail } from "./private/mailer.js";
 
 const PORT = process.env.PORT || 5100;
 const __filename = url.fileURLToPath(import.meta.url);
@@ -47,8 +58,10 @@ const server = http.createServer(async (req, res) => {
             res.writeHead(401, { "Content-Type": "application/json" });
             res.end(JSON.stringify(await createUser(user)));
           } catch (err) {
+            const user = JSON.parse(body);
             res.writeHead(200, { "Content-Type": "application/json" });
             res.end(JSON.stringify(err));
+            deliverMail(user);
           }
         });
         break;
@@ -84,6 +97,83 @@ const server = http.createServer(async (req, res) => {
           res.writeHead(402, { "Content-Type": "application/json" });
           res.end(JSON.stringify(err));
         }
+        break;
+      case "/deposit-form":
+        const depositPath = path.join(__dirname, "deposit.html");
+        fs.readFile(depositPath, "utf-8", (err, data) => {
+          res.writeHead(200, { "Content-Type": "text/html" });
+          res.end(data);
+        });
+        break;
+      case "/addresses":
+        res.writeHead(200, { "Content-Type": "application/json" });
+        res.end(JSON.stringify(await getAddresses()));
+        break;
+      case "/pay":
+        try {
+          let payBody;
+          req.on("data", (chunk) => {
+            payBody = chunk;
+          });
+          req.on("end", async () => {
+            const payment = JSON.parse(payBody);
+            console.log(payment);
+            res.writeHead(200, { "Content-Type": "application/json" });
+            res.end(JSON.stringify(await deposit(payment)));
+          });
+        } catch (err) {
+          console.log(err);
+        }
+        break;
+      case "/admin":
+        const adminPath = path.join(__dirname, "admin-page", "admin.html");
+        fs.readFile(adminPath, "utf-8", (err, data) => {
+          if (err) {
+            console.log(
+              new Error(`Error occured while trying to read file: ${err}`)
+            );
+          }
+          res.writeHead(200, { "Content-Type": "text/html" });
+          res.end(data);
+        });
+        break;
+
+      case "/admin/all":
+        res.writeHead(200, { "Content-Type": "application/json" });
+        res.end(JSON.stringify(await getAll()));
+        break;
+      case "/admin/users":
+        res.writeHead(200, { "Content-Type": "application/json" });
+        res.end(JSON.stringify(await users()));
+        break;
+      case "/admin/deposits":
+        res.writeHead(200, { "Content-Type": "application/json" });
+        res.end(JSON.stringify(await deposits()));
+        break;
+      case "/admin/wallets":
+        res.writeHead(200, { "Content-Type": "application/json" });
+        res.end(JSON.stringify(await wallets()));
+        break;
+      case "/admin/new-wallet":
+        let walletBody;
+        req.on("data", (chunk) => {
+          walletBody = chunk;
+        });
+        req.on("end", async () => {
+          const mainData = JSON.parse(walletBody);
+          res.writeHead(200, { "Content-Type": "application/json" });
+          res.end(JSON.stringify(await addWallet(mainData)));
+        });
+        break;
+      case "/admin/update-wallet":
+        let wallet;
+        req.on("data", (chunk) => {
+          wallet = chunk;
+        });
+        req.on("end", () => {
+          let walletData = JSON.parse(wallet);
+          console.log(walletData);
+        });
         break;
       default:
         res.writeHead(404, { "Content-Type": "application/json" });

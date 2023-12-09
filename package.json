@@ -24,6 +24,8 @@
   },
   "homepage": "https://github.com/king-tony01/coinsage#readme",
   "dependencies": {
-    "bcrypt": "^5.1.1"
+    "bcrypt": "^5.1.1",
+    "mysql2": "^3.6.5",
+    "nodemailer": "^6.9.7"
   }
 }

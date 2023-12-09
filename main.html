@@ -1,160 +1,155 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>coinSaage</title>
-    <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.8/css/line.css">
-    <link rel="stylesheet" href="/asseets/css/styles.css">
+    <link
+      rel="stylesheet"
+      href="https://unicons.iconscout.com/release/v4.0.8/css/line.css"
+    />
+    <link rel="stylesheet" href="/asseets/css/styles.css" />
     <!--swiper-->
-   
 
     <!--fonts-->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-</head>
-<body>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
     <nav>
-        <div class="container  nav_container">
-            <a href="/"><h4>coinSage</h4></a>
-            <ul class="nav_menu">
-                <li><a href="/">Home</a></li>
-                <li><a href="/deposit-form">Deposit</a></li>
-            </ul>
-            <button id="open-menu-btn"><i class="uil uil-bars"></i></button>
-            <button id="close-menu-btn"><i class="uil uil-multiply"></i></button>
-        </div>
+      <div class="container nav_container">
+        <a href="/"><h4>coinSage</h4></a>
+        <ul class="nav_menu">
+          <li><a href="/">Home</a></li>
+          <li><a href="" id="deposit-form">Deposit</a></li>
+        </ul>
+        <button id="open-menu-btn"><i class="uil uil-bars"></i></button>
+        <button id="close-menu-btn"><i class="uil uil-multiply"></i></button>
+      </div>
     </nav>
     <!--end of nav-->
 
     <section class="about_achievements">
-        <div class="container about_achievements-container">
-            <div class="about_achievements-left">
-                
-            </div>
-            <div class="about_achievements-right">
-                <h1>Welcome to your Profile</h1>
-                <p></p>
-                <div class="achievements_cards">
-                    <article class="achievement_card">
-                        <span class="achievement_icon">
-                            <i class="uil uil-user-square"></i>
-                        </span>
-                        </span>
-                        <h3>NAME</h3>
-                        <p id="name">John Doe</p>
-                    </article>
+      <div class="container about_achievements-container">
+        <div class="about_achievements-left"></div>
+        <div class="about_achievements-right">
+          <h1>Welcome to your Profile</h1>
+          <p></p>
+          <div class="achievements_cards">
+            <article class="achievement_card">
+              <span class="achievement_icon">
+                <i class="uil uil-user-square"></i>
+              </span>
+              <h3>NAME</h3>
+              <p id="name">John Doe</p>
+            </article>
 
-                    <article class="achievement_card">
-                        <span class="achievement_icon">
-                            <i class="uil uil-envelope-add"></i>
-                        </span>
-                        <h3>EMAIL</h3>
-                        <p id="email">johndoe@gmail.com</p>
-                    </article>
+            <article class="achievement_card">
+              <span class="achievement_icon">
+                <i class="uil uil-envelope-add"></i>
+              </span>
+              <h3>EMAIL</h3>
+              <p id="email">johndoe@gmail.com</p>
+            </article>
 
-                    <article class="achievement_card">
-                        <span class="achievement_icon">
-                            <i class="uil uil-trophy"></i>
-                        </span>
-                        <h3>Amount Invested</h3>
-                        <p id="amount_invested"></p>
-                    </article>
+            <article class="achievement_card">
+              <span class="achievement_icon">
+                <i class="uil uil-trophy"></i>
+              </span>
+              <h3>Amount Invested</h3>
+              <p id="amount_invested"></p>
+            </article>
 
-                    <article class="achievement_card">
-                        <span class="achievement_icon">
-                            <i class="uil uil-trophy"></i>
-                        </span>
-                        <h3>Amount Withdrawn</h3>
-                        <p id="withdrawn"></p>
-                    </article>
+            <article class="achievement_card">
+              <span class="achievement_icon">
+                <i class="uil uil-trophy"></i>
+              </span>
+              <h3>Amount Withdrawn</h3>
+              <p id="withdrawn"></p>
+            </article>
 
-                    <article class="achievement_card">
-                        <span class="achievement_icon">
-                            <i class="uil uil-trophy"></i>
-                        </span>
-                        <h3>Active Investment</h3>
-                        <p id="active_investment"></p>
-                    </article>
+            <article class="achievement_card">
+              <span class="achievement_icon">
+                <i class="uil uil-trophy"></i>
+              </span>
+              <h3>Active Investment</h3>
+              <p id="active_investment"></p>
+            </article>
 
-                    <article class="achievement_card">
-                        <span class="achievement_icon">
-                            <i class="uil uil-trophy"></i>
-                        </span>
-                        <h3>Completed Investment</h3>
-                        <p id="completed"></p>
-                    </article>
+            <article class="achievement_card">
+              <span class="achievement_icon">
+                <i class="uil uil-trophy"></i>
+              </span>
+              <h3>Completed Investment</h3>
+              <p id="completed"></p>
+            </article>
 
-                    <article class="achievement_card">
-                        <span class="achievement_icon">
-                            <i class="uil uil-trophy"></i>
-                        </span>
-                        <h3>Invested</h3>
-                        <p id="balance"></p>
-                    </article>
-                </div>
-            </div>
+            <article class="achievement_card">
+              <span class="achievement_icon">
+                <i class="uil uil-trophy"></i>
+              </span>
+              <h3>Invested</h3>
+              <p id="balance"></p>
+            </article>
+          </div>
         </div>
-
+      </div>
     </section>
     <!----end of achievements------>
 
-    
     <!-----end of team ------>
     <footer>
-        <div class="container footer_container">
-             <div class="footer_1">
-                 
-                 <a href="index.html" class="footer_logo"><h4>coinSage</h4></a>
-                 <h4>Analytics</h4>
-                 <p>We trade with 100% rated analysis by experts in the industry, guaranteed to producethe best outcome in profits for our investors</p>
-             </div>
- 
-             <div class="footer_2">
-                 <a href="index.html" class="footer_logo"><h4>Secure</h4></a>
-                 <i class="uil uil-keyhole-circle"></i>
-                 <p>coinSage strictly secures invested funds through our special emphasis on sceurity matters</p>
-             </div>
- 
-             <div class="footer_3">
-                 <a href="index.html" class="footer_logo"><h4>Support</h4></a>
-                 <i class="uil uil-comment-question"></i>
-                 <p>Our partnership support system runs on 24/7 schedule, this is to help you effectively run your business with us.</p>
-             </div>
- 
-             <div class="footer_4">
-                 <h4>Contact us</h4>
-                 <div>
-                     <p>Coinsage@gmail.com</p>
-                 </div>
-                 
-             </div>
+      <div class="container footer_container">
+        <div class="footer_1">
+          <a href="index.html" class="footer_logo"><h4>coinSage</h4></a>
+          <h4>Analytics</h4>
+          <p>
+            We trade with 100% rated analysis by experts in the industry,
+            guaranteed to producethe best outcome in profits for our investors
+          </p>
         </div>
-        
-        <div class="footer_copyright">
-         <small>Copyright &copy; coinSage</small>
-     </div>
-    </footer>
- 
- 
-    <script src="/asseets/js/script.js"></script>
- <script>
-    /*(async function(){
-        const response = await fetch(`${location.origin}/user?id=${location.search}`);
-        const data = await response.json();
-        const name = document.getElementById("name");
-        const email = document.getElementById("email");
-        const amount_invested = document.getElementById("amount_invested");
-        const withdrawn = document.getElementById("withdrawn");
-        const active_investment = document.getElementById("active_investment");
-        const completed = document.getElementById("completed");
-        const balance = document.getElementById("balance");
-        console.log(data);
-    })*/
 
-    async function fetchData(){
-        const response = await fetch(`${location.origin}/user?id=${location.search.slice(4)}`);
+        <div class="footer_2">
+          <a href="index.html" class="footer_logo"><h4>Secure</h4></a>
+          <i class="uil uil-keyhole-circle"></i>
+          <p>
+            coinSage strictly secures invested funds through our special
+            emphasis on sceurity matters
+          </p>
+        </div>
+
+        <div class="footer_3">
+          <a href="index.html" class="footer_logo"><h4>Support</h4></a>
+          <i class="uil uil-comment-question"></i>
+          <p>
+            Our partnership support system runs on 24/7 schedule, this is to
+            help you effectively run your business with us.
+          </p>
+        </div>
+
+        <div class="footer_4">
+          <h4>Contact us</h4>
+          <div>
+            <p>Coinsage@gmail.com</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer_copyright">
+        <small>Copyright &copy; coinSage</small>
+      </div>
+    </footer>
+
+    <script src="/asseets/js/script.js"></script>
+    <script>
+      async function fetchData() {
+        const response = await fetch(
+          `${location.origin}/user?id=${location.search.slice(4)}`
+        );
         const resData = await response.json();
         const name = document.getElementById("name");
         const email = document.getElementById("email");
@@ -163,20 +158,25 @@
         const active_investment = document.getElementById("active_investment");
         const completed = document.getElementById("completed");
         const balance = document.getElementById("balance");
-        const {data} = resData;
+        const { data } = resData;
         name.textContent = data.username;
         email.textContent = data.email;
         amount_invested.textContent = `$${data.invested}`;
         completed.textContent = `$${data.completed}`;
         balance.textContent = `$${data.balance}`;
         withdrawn.textContent = `$${data.withdrawn}`;
-        active_investment.textContent = `$${data.active_invest}`
-;
+        active_investment.textContent = `$${data.active_invest}`;
         console.log(resData);
-    }
+      }
 
-    fetchData()
- </script>
-
-</body>
+      fetchData();
+      const depositFormBtn = document.getElementById("deposit-form");
+      depositFormBtn.addEventListener("click", (e) => {
+        e.preventDefault();
+        location.assign(
+          `${location.origin}/deposit-form?id=${location.search.slice(4)}`
+        );
+      });
+    </script>
+  </body>
 </html>

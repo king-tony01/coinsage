@@ -1,73 +1,133 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>coinSaage</title>
-    <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.8/css/line.css">
-    <link rel="stylesheet" href="styles.css">
+    <link
+      rel="stylesheet"
+      href="https://unicons.iconscout.com/release/v4.0.8/css/line.css"
+    />
     <!--swiper-->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css"
+    />
 
     <!--fonts-->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="asseets/css/deposit.css">
-<script src="asseets/js/deposit.js"></script>
-</head>
-<body>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="asseets/css/deposit.css" />
+  </head>
+  <body>
     <nav>
-        <div class="container  nav_container">
-            <a href="mainpage.html"><h4>coinSage</h4></a>
-            <ul class="nav_menu">
-                <li><a href="mainpage.html">Home</a></li>
-            </ul>
-            <button id="open-menu-btn"><i class="uil uil-bars"></i></button>
-            <button id="close-menu-btn"><i class="uil uil-multiply"></i></button>
-        </div>
+      <div class="container">
+        <a href="/"><h4>coinSage</h4></a>
+        <ul class="nav_menu">
+          <li><a href="/">Home</a></li>
+        </ul>
+        <button id="open-menu-btn"><i class="uil uil-bars"></i></button>
+        <button id="close-menu-btn"><i class="uil uil-multiply"></i></button>
+      </div>
     </nav>
     <!--end of nav-->
-    
-    <div class="main">
-            <input type="checkbox" id="chk" aria-hidden="true">
-            <div class="signup">
-                <form>
-                    <label for="chk" aria-hidden="true">DEPOSIT</label>
-                    <input type="text" name="txt" placeholder="Amount" required>
-                    <input type="text" name="email" placeholder="plan" required>
-                    <input type="text" name="password" placeholder="payment option" required>
-                    <button onclick="openPopup()">Deposit</button>
-                </form>
-            </div>
-            <div class="login">
-                <form>
-                    <label for="chk" aria-hidden="true">Withdraw</label>
-                    <input type="text" name="email" placeholder="Amount" required>
-                    <input type="text" name="pswd" placeholder="wallet address" required>
-                    <button onclick="openPopup()">Deposit</button>
-                </form>    
-            </div>
-    </div>
-    <div class="popup" id="popup">
-        <img src="asseets/images/success.png">
-        <h1>Success!</h1>
-        <p>Your transaction has been successfully submitted. Thanks!</p>
-        <button type="button" onclick="closePopup()">ok</button>
-    </div>
+    <main>
+      <form action="">
+        <h2>Deposit</h2>
+        <br />
+        <p>
+          Deposits takes about 24Hrs to be confirmed, you should wait for at
+          least 24Hrs before making a complaint
+        </p>
+        <br />
+        <div class="inputs">
+          <label for="amount">Amount</label>
+          <input
+            type="number"
+            name="amount"
+            id="amount"
+            placeholder="$ 200 - 999999"
+          />
+        </div>
+        <br />
+        <label for="plans">Please select a plan</label>
+        <br />
+        <div class="plans" id="plans">
+          <div class="plan active" data-plan="silver">
+            <span class="category_icon"
+              ><i class="uil uil-spinner-alt"></i
+            ></span>
+            <h5>Silver</h5>
+            <div><strong>$4 999</strong><strong>2.5% daily</strong></div>
+          </div>
+          <div class="plan" data-plan="platinum">
+            <span class="category_icon"><i class="uil uil-gold"></i></span>
+            <h5>Platinium</h5>
+            <div><strong>$19,999</strong><strong>3.5% daily</strong></div>
+          </div>
+          <div class="plan" data-plan="gold">
+            <span class="category_icon"><i class="uil uil-diamond"></i></span>
+            <h5>Gold</h5>
+            <div><strong>$49,999</strong><strong>6.5% daily</strong></div>
+          </div>
+          <div class="plan" data-plan="diamond">
+            <span class="category_icon"><i class="uil uil-diamond"></i></span>
+            <h5>Diamond</h5>
+            <div><strong>$79,999</strong><strong>12.5% daily</strong></div>
+          </div>
+        </div>
+        <br />
+        <div class="coins">
+          <div class="coin active" data-coin="bitcoin">
+            <img src="/asseets/images/bitcoin.png" alt="" /><b>Bitcoin</b>
+          </div>
+          <div class="coin" data-coin="ethereum">
+            <img src="/asseets/images/ethereum.png" alt="" /><b>Ethereum</b>
+          </div>
+          <div class="coin" data-coin="bnb">
+            <img src="/asseets/images/bnb.png" alt="" /><b>BNB</b>
+          </div>
+        </div>
+        <br />
+        <div class="attention">
+          <h3>Attention!</h3>
+          <p>
+            Make sure you transfer your fund using the appropriate network, use
+            Bitcoin network for Bitcoin transfers, SmartChain (BEP-20) for BNB,
+            and Ethereum (ERC-20) for Ethereum.
+          </p>
+          <p>
+            Using a different network other than the appropriate network will
+            result in total loss of asset, and Coinsage will not be held
+            responsible for such catastrophe.
+          </p>
+        </div>
+        <br />
+        <div class="address-con">
+          <p>
+            Please copy the <span id="coin-name">Bitcoin</span> address below
+            and transfer your funds to it.
+          </p>
+          <p>
+            After doing the transfer, click on the
+            <span>"Confirm"</span> button to confirm your transaction
+          </p>
 
-    <script>
-        let popup = document.getElementById("popup");
-        function openPopup(){
-            popup.classList.add("open-popup")
-        };
+          <div class="address">
+            <span id="address"></span>
+            <button id="copy">Copy</button>
+          </div>
+        </div>
+        <br />
+        <button id="confirm">Confirm</button>
+      </form>
+    </main>
 
-        function closePopup(){
-            popup.classList.remove("open-popup")
-        }
-    </script>
-
-
-    <script src="script.js"></script>
-    </body>
-    </html>
+    <script src="/asseets/js/script.js"></script>
+    <script src="/asseets/js/deposit.js"></script>
+  </body>
+</html>
