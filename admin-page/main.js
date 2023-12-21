@@ -1,5 +1,6 @@
 const tabs = document.querySelectorAll(".tab");
 const page = document.querySelector("main");
+let all = [];
 init();
 tabs.forEach((tab) => {
   tab.addEventListener("click", async () => {
@@ -12,9 +13,8 @@ tabs.forEach((tab) => {
         <i class="fas fa-spinner"></i>
         <p>Fetching data...</p>
       </div>`;
-        const data = await getJSON(`/admin/all`);
-        if (data) {
-          const { users, revenue, activeInvest, pendingPay } = data;
+        if (all) {
+          const { users, revenue, activeInvest, pendingPay } = all;
           page.innerHTML = `<section class="dashboard">
         <div class="card">
           <h2>${users.length}</h2>
@@ -32,14 +32,6 @@ tabs.forEach((tab) => {
           <h2>${pendingPay.length}</h2>
           <p>Pending Payments</p>
         </div>
-        <div class="card">
-          <h2>$ 3,000</h2>
-          <p>Active Investments</p>
-        </div>
-        <div class="card">
-          <h2>$ 3,000</h2>
-          <p>Active Investments</p>
-        </div>
       </section>`;
         }
         break;
@@ -48,7 +40,7 @@ tabs.forEach((tab) => {
         <i class="fas fa-spinner"></i>
         <p>Fetching data...</p>
       </div>`;
-        const users = await getJSON("/admin/users");
+        const { users } = all;
         if (users) {
           page.innerHTML = `<section class="users">
         <ul>
@@ -62,12 +54,20 @@ tabs.forEach((tab) => {
                 <small class="email">${user.email}</small>
               </div>
             </div>
-            <i class="fas fa-ellipsis-vertical"></i>
+            <i class="fas fa-ellipsis-vertical" id="${user.id}"></i>
           </li>`;
           })
           .join(" ")}
         </ul>
       </section>`;
+          document.querySelectorAll(".fa-ellipsis-vertical").forEach((btn) => {
+            btn.addEventListener("click", () => {
+              const user = users.find((user) => {
+                return user.id == btn.id;
+              });
+              displayUser(user);
+            });
+          });
         }
         break;
       case "payments":
@@ -192,14 +192,6 @@ async function closeForm() {
   openBtn.classList.remove("active");
 }
 
-async function activateWallet(id) {
-  const wallet = {
-    id: id,
-  };
-  const data = await sendJSON(wallet, "/admin/update-wallet");
-  console.log(data);
-}
-
 async function wallet() {
   const wallets = await getJSON("/admin/wallets");
   if (wallets.length > 0) {
@@ -215,9 +207,9 @@ async function wallet() {
                 <img src="/asseets/images/ethereum.png" alt="" />
                 <b>ETH</b>
               </div>
-              <div class="coin-card" data-coin="BNB">
-                <img src="/asseets/images/bnb.png" alt="" />
-                <b>BNB</b>
+              <div class="coin-card" data-coin="USDT">
+                <img src="/asseets/images/usdt-token.png" alt="" />
+                <b>USDT</b>
               </div>
             </div>
             <label for="wallet-address">Address:</label>
@@ -229,8 +221,9 @@ async function wallet() {
           </button>
         </div>
         <ul>
-        ${wallets.map((wallet) => {
-          return `<li>
+        ${wallets
+          .map((wallet) => {
+            return `<li>
             <div class="wrap">
               <i class="fas fa-wallet"></i>
               <div>
@@ -240,11 +233,11 @@ async function wallet() {
               </div>
             </div>
             <div class="action">
-              <i class="fas fa-close"></i><i class="fas fa-check" onclick="activateWallet(${wallet.id})"></i
-              ><i class="fas fa-trash"></i>
+              <i class="fas fa-trash" onclick="deleteWallet('${wallet.id}')"></i>
             </div>
           </li>`;
-        })}
+          })
+          .join(" ")}
         </ul>
       </section>`;
   } else {
@@ -260,9 +253,9 @@ async function wallet() {
                 <img src="/asseets/images/ethereum.png" alt="" />
                 <b>ETH</b>
               </div>
-              <div class="coin-card" data-coin="BNB">
-                <img src="/asseets/images/bnb.png" alt="" />
-                <b>BNB</b>
+              <div class="coin-card" data-coin="USDT">
+                <img src="/asseets/images/usdt-token.png" alt="" />
+                <b>USDT</b>
               </div>
             </div>
             <label for="wallet-address">Address:</label>
@@ -281,6 +274,7 @@ async function wallet() {
 async function init() {
   try {
     const data = await getJSON(`/admin/all`);
+    all = data;
     if (data) {
       const { users, revenue, activeInvest, pendingPay } = data;
       let total = 0;
@@ -305,17 +299,49 @@ async function init() {
           <h2>${pendingPay.length}</h2>
           <p>Pending Payments</p>
         </div>
-        <div class="card">
-          <h2>$ 3,000</h2>
-          <p>Active Investments</p>
-        </div>
-        <div class="card">
-          <h2>$ 3,000</h2>
-          <p>Active Investments</p>
-        </div>
       </section>`;
     }
   } catch (err) {
     alert(err);
   }
+}
+
+async function deleteWallet(id) {
+  console.log(id);
+  const response = await fetch(`${location.origin}/wallet/remove`, {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(id),
+  });
+  const resData = await response.json();
+  if (resData.stat) {
+    alert(resData.message);
+  } else {
+    alert(resData.message);
+  }
+  await wallet();
+}
+
+function displayUser(user) {
+  const previewModal = document.querySelector(".user-preview-con");
+  previewModal.classList.add("active");
+  previewModal.innerHTML = `<div class="preview-con">
+          <i class="fas fa-close" id="closePreview"></i>
+          <p>Full name: ${user.fullname}</p>
+          <p>Username: ${user.username}</p>
+          <p>Email: ${user.email}</p>
+          <p>Phone: ${user.phone}</p>
+          <p>Country: ${user.country}</p>
+          <p>Balance: ${user.balance}</p>
+          <p>Completed: ${user.completed}</p>
+          <p>Active Investment: ${user.active_invest}</p>
+          <p>Invested: ${user.invested}</p>
+          <p>Withdrawn: ${user.withdrawn}</p>
+          <p>Referral link: ${user.referral}</p>
+        </div>`;
+  document.getElementById("closePreview").addEventListener("click", () => {
+    previewModal.classList.remove("active");
+  });
 }

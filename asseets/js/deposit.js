@@ -1,3 +1,4 @@
+let addresses = [];
 getAddresses();
 
 const deposit = {
@@ -8,14 +9,14 @@ const deposit = {
   payer: "",
 };
 
-let addresses = [];
-
 async function getAddresses() {
   const response = await fetch(`${location.origin}/addresses`);
   const data = await response.json();
-  console.log(data);
-  console.log(addresses);
   addresses = data;
+  const bitcoin = addresses.find((address) => {
+    return address.wallet_name == "Bitcoin";
+  });
+  document.getElementById("address").textContent = bitcoin.address;
 }
 
 getEmail();
@@ -51,19 +52,19 @@ coins.forEach((coin) => {
         const bitcoin = addresses.find((address) => {
           return address.wallet_name == "Bitcoin";
         });
-        document.getElementById("address").textContent = bitcoin;
+        document.getElementById("address").textContent = bitcoin.address;
         break;
       case "ethereum":
         const ethereum = addresses.find((address) => {
           return address.wallet_name == "Ethereum";
         });
-        document.getElementById("address").textContent = ethereum;
+        document.getElementById("address").textContent = ethereum.address;
         break;
       case "bnb":
-        const bnb = addresses.find((address) => {
-          return address.wallet_name == "BNB";
+        const usdt = addresses.find((address) => {
+          return address.wallet_name == "USDT";
         });
-        document.getElementById("address").textContent = bnb;
+        document.getElementById("address").textContent = usdt.address;
         break;
     }
   });

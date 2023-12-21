@@ -11,6 +11,12 @@ const myDB = createConnection({
     ca: fs.readFileSync("./ca.pem"), // Specify the path to your CA certificate
   },
 });
+/*const myDB = createConnection({
+  user: "root",
+  host: "localhost",
+  database: "coinsage",
+  password: "password",
+});*/
 
 myDB.connect((err) => {
   if (err) {
@@ -23,8 +29,9 @@ export async function createUser(details) {
   const { id, username, fullname, email, phone, password, country } = details;
   const salt = await bcrypt.genSalt(10);
   const hashedPassword = await bcrypt.hash(password, salt);
+  const referral = `https://www.coinsage.live/ref?id=${id}`;
   let exist = `SELECT * FROM users WHERE email = ?`;
-  let query = `INSERT INTO users(id, username, fullname, email, phone, user_password, country) VALUES(?, ?, ?, ?, ?, ?, ?)`;
+  let query = `INSERT INTO users(id, username, fullname, email, phone, user_password, country, referral) VALUES(?, ?, ?, ?, ?, ?, ?, ?)`;
   return new Promise(async (reject, resolve) => {
     try {
       myDB.query(exist, [email], function (err, result, fields) {
@@ -44,7 +51,16 @@ export async function createUser(details) {
         } else {
           myDB.query(
             query,
-            [id, username, fullname, email, phone, hashedPassword, country],
+            [
+              id,
+              username,
+              fullname,
+              email,
+              phone,
+              hashedPassword,
+              country,
+              referral,
+            ],
             function (err, result, fields) {
               if (err) {
                 reject(err);
@@ -125,18 +141,6 @@ export function fetchUser(user, id) {
   }
 }
 
-export function getAddresses() {
-  return new Promise((resolve, reject) => {
-    let query = "SELECT * FROM wallets WHERE stat= TRUE";
-    myDB.query(query, function (err, results, fields) {
-      if (err) {
-        throw err;
-      } else {
-        resolve(results);
-      }
-    });
-  });
-}
 export function deposit(payment) {
   return new Promise((resolve, reject) => {
     let query = `INSERT INTO deposits(id, amount, plan, pay_option, date_created, payer, confirmed) VALUES(?,?, ?, ?, ? , ?, ? )`;
@@ -236,7 +240,7 @@ export async function wallets() {
 
 export async function addWallet(data) {
   return new Promise((resolve, reject) => {
-    let query = `INSERT INTO wallets(id, wallet_name, address, date_created) VALUES(?, ?, ?)`;
+    let query = `INSERT INTO wallets(id, wallet_name, address) VALUES(?, ?, ?)`;
     myDB.query(
       query,
       [data.id, data.walletName, data.address, data.dateCreated],
@@ -254,5 +258,22 @@ export async function addWallet(data) {
         }
       }
     );
+  });
+}
+
+export async function deleteWallet(id) {
+  return new Promise((resolve, reject) => {
+    try {
+      let query = "DELETE FROM wallets WHERE id=?";
+      myDB.query(query, [id], function (err, result, fields) {
+        if (err) {
+          reject({ stat: false, message: "Operation unsuccessful!" });
+        } else {
+          resolve({ stat: true, message: "Wallet removed successfully!" });
+        }
+      });
+    } catch (err) {
+      reject(err);
+    }
   });
 }

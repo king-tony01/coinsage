@@ -6,10 +6,10 @@ import { serveType } from "./contentType.js";
 import {
   addWallet,
   createUser,
+  deleteWallet,
   deposit,
   deposits,
   fetchUser,
-  getAddresses,
   getAll,
   users,
   wallets,
@@ -36,6 +36,13 @@ const server = http.createServer(async (req, res) => {
       case "/signup":
         const signupPath = path.join(__dirname, "signup.html");
         fs.readFile(signupPath, "utf-8", (err, data) => {
+          res.writeHead(200, { "Content-Type": "text/html" });
+          res.end(data);
+        });
+        break;
+      case "/ref":
+        const referralPath = path.join(__dirname, "signup.html");
+        fs.readFile(referralPath, "utf-8", (err, data) => {
           res.writeHead(200, { "Content-Type": "text/html" });
           res.end(data);
         });
@@ -107,7 +114,23 @@ const server = http.createServer(async (req, res) => {
         break;
       case "/addresses":
         res.writeHead(200, { "Content-Type": "application/json" });
-        res.end(JSON.stringify(await getAddresses()));
+        res.end(JSON.stringify(await wallets()));
+        break;
+      case "/wallet/remove":
+        try {
+          let idBody;
+          req.on("data", (chunk) => {
+            idBody = chunk;
+          });
+          req.on("end", async () => {
+            const id = JSON.parse(idBody);
+            console.log(id);
+            res.writeHead(200, { "Content-Type": "application/json" });
+            res.end(JSON.stringify(await deleteWallet(id)));
+          });
+        } catch (err) {
+          console.log(err);
+        }
         break;
       case "/pay":
         try {
