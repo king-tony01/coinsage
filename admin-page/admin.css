@@ -33,6 +33,8 @@ body {
   line-height: 1.7;
   color: var(--color-white);
   background: var(--color-bg);
+  min-width: fit-content;
+  overflow-x: hidden;
 }
 
 a {
@@ -532,3 +534,7 @@ footer ul li a:hover {
   margin-top: 10px;
   cursor: pointer;
 }
+
+/*@media (max-width: 669px;) {
+  body{ over-flow: hidden;}
+}*/
