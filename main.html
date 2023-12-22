@@ -153,6 +153,7 @@
 
     <script src="/asseets/js/script.js"></script>
     <script>
+      fetchData();
       async function fetchData() {
         const response = await fetch(
           `${location.origin}/user?id=${location.search.slice(4)}`
@@ -177,8 +178,6 @@
         referral.textContent = data.referral;
         console.log(resData);
       }
-
-      fetchData();
       const depositFormBtn = document.getElementById("deposit-form");
       depositFormBtn.addEventListener("click", (e) => {
         e.preventDefault();

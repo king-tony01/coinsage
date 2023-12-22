@@ -462,7 +462,8 @@ footer ul li a:hover {
   color: var(--color-bg1);
 }
 
-.preview-con .fa-close {
+.preview-con .fa-close,
+.deposit-form .fa-close {
   font-size: 20px;
   font-weight: 700;
   margin-bottom: 20px;
@@ -473,5 +474,61 @@ footer ul li a:hover {
   justify-content: center;
   border-radius: 50%;
   background: #efefef;
+  cursor: pointer;
+  color: var(--color-bg1);
+}
+
+.buttons {
+  padding: 10px 0;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+.buttons button {
+  border-radius: 10px;
+  font-size: 16px;
+  padding: 10px;
+  font-weight: 600;
+  color: var(--color-white);
+  cursor: pointer;
+}
+
+.buttons #fund-user {
+  background: var(--color-success);
+}
+.buttons #delete-user {
+  background: var(--color-danger);
+}
+
+.deposit-form {
+  padding: 20px;
+  border-radius: 10px;
+  background: var(--color-white);
+}
+
+.deposit-form h3 {
+  color: var(--color-bg1);
+  margin-bottom: 20px;
+}
+.deposit-form input {
+  padding: 10px;
+  font-size: 16px;
+  font-weight: 600;
+  display: block;
+  width: 100%;
+  border-radius: 10px;
+  border: 1px solid var(--color-bg1);
+}
+
+.deposit-form button {
+  width: 100%;
+  padding: 10px;
+  color: white;
+  border-radius: 10px;
+  background: var(--color-success);
+  display: block;
+  font-size: 16px;
+  margin-top: 10px;
   cursor: pointer;
 }

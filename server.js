@@ -6,6 +6,8 @@ import { serveType } from "./contentType.js";
 import {
   addWallet,
   createUser,
+  creditUser,
+  deleteUser,
   deleteWallet,
   deposit,
   deposits,
@@ -69,6 +71,39 @@ const server = http.createServer(async (req, res) => {
             res.writeHead(200, { "Content-Type": "application/json" });
             res.end(JSON.stringify(err));
             deliverMail(user);
+          }
+        });
+      case "/credit":
+        let data;
+        req.on("data", (chunk) => {
+          data = chunk;
+        });
+        req.on("end", async () => {
+          try {
+            const transData = JSON.parse(data);
+            console.log(transData);
+            res.writeHead(200, { "Content-Type": "application/json" });
+            res.end(JSON.stringify(await creditUser(transData)));
+          } catch (err) {
+            res.writeHead(500, { "Content-Type": "application/json" });
+            res.end(JSON.stringify(err));
+          }
+        });
+        break;
+      case "/remove-user":
+        let userDetail;
+        req.on("data", (chunk) => {
+          userDetail = chunk;
+        });
+        req.on("end", async () => {
+          try {
+            const parsedId = JSON.parse(userDetail);
+            console.log(parsedId);
+            res.writeHead(200, { "Content-Type": "application/json" });
+            res.end(JSON.stringify(await deleteUser(parsedId)));
+          } catch (err) {
+            res.writeHead(500, { "Content-Type": "application/json" });
+            res.end(JSON.stringify(err));
           }
         });
         break;

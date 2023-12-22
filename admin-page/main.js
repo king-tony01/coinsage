@@ -41,34 +41,7 @@ tabs.forEach((tab) => {
         <p>Fetching data...</p>
       </div>`;
         const { users } = all;
-        if (users) {
-          page.innerHTML = `<section class="users">
-        <ul>
-        ${users
-          .map((user) => {
-            return `<li>
-            <div>
-              <i class="fas fa-user"></i>
-              <div>
-                <b class="username">${user.username}</b>
-                <small class="email">${user.email}</small>
-              </div>
-            </div>
-            <i class="fas fa-ellipsis-vertical" id="${user.id}"></i>
-          </li>`;
-          })
-          .join(" ")}
-        </ul>
-      </section>`;
-          document.querySelectorAll(".fa-ellipsis-vertical").forEach((btn) => {
-            btn.addEventListener("click", () => {
-              const user = users.find((user) => {
-                return user.id == btn.id;
-              });
-              displayUser(user);
-            });
-          });
-        }
+        usersView(users);
         break;
       case "payments":
         page.innerHTML = ` <div class="loader">
@@ -271,6 +244,37 @@ async function wallet() {
   }
 }
 
+function usersView(users) {
+  if (users) {
+    page.innerHTML = `<section class="users">
+        <ul>
+        ${users
+          .map((user) => {
+            return `<li>
+            <div>
+              <i class="fas fa-user"></i>
+              <div>
+                <b class="username">${user.username}</b>
+                <small class="email">${user.email}</small>
+              </div>
+            </div>
+            <i class="fas fa-ellipsis-vertical" id="${user.id}"></i>
+          </li>`;
+          })
+          .join(" ")}
+        </ul>
+      </section>`;
+    document.querySelectorAll(".fa-ellipsis-vertical").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const user = users.find((user) => {
+          return user.id == btn.id;
+        });
+        displayUser(user);
+      });
+    });
+  }
+}
+
 async function init() {
   try {
     const data = await getJSON(`/admin/all`);
@@ -328,20 +332,88 @@ function displayUser(user) {
   const previewModal = document.querySelector(".user-preview-con");
   previewModal.classList.add("active");
   previewModal.innerHTML = `<div class="preview-con">
-          <i class="fas fa-close" id="closePreview"></i>
-          <p>Full name: ${user.fullname}</p>
-          <p>Username: ${user.username}</p>
-          <p>Email: ${user.email}</p>
-          <p>Phone: ${user.phone}</p>
-          <p>Country: ${user.country}</p>
-          <p>Balance: ${user.balance}</p>
-          <p>Completed: ${user.completed}</p>
-          <p>Active Investment: ${user.active_invest}</p>
-          <p>Invested: ${user.invested}</p>
-          <p>Withdrawn: ${user.withdrawn}</p>
-          <p>Referral link: ${user.referral}</p>
-        </div>`;
+        <i class="fas fa-close" id="closePreview"></i>
+        <p>Full name: ${user.fullname}</p>
+        <p>Username: ${user.username}</p>
+        <p>Email: ${user.email}</p>
+        <p>Phone: ${user.phone}</p>
+        <p>Country: ${user.country}</p>
+        <p>Balance: ${user.balance}</p>
+        <p>Completed: ${user.completed}</p>
+        <p>Active Investment: ${user.active_invest}</p>
+        <p>Invested: ${user.invested}</p>
+        <p>Withdrawn: ${user.withdrawn}</p>
+        <p>Referral link: ${user.referral}</p>
+        <div class="buttons">
+          <button id="delete-user">Deactivate</button>
+          <button id="fund-user">Fund</button>
+        </div>
+      </div>`;
+  const buttons = previewModal.querySelectorAll("button");
+  buttons.forEach((button) => {
+    button.addEventListener("click", async () => {
+      if (button.id == "fund-user") {
+        depositUser(user);
+      } else if ((button.id = "delete-user")) {
+        button.textContent = "Deactivating...";
+        await deleteUser(user);
+      }
+    });
+  });
   document.getElementById("closePreview").addEventListener("click", () => {
     previewModal.classList.remove("active");
   });
+}
+
+function depositUser(user) {
+  const previewModal = document.querySelector(".user-preview-con");
+  previewModal.classList.add("active");
+  previewModal.innerHTML = ` <div class="deposit-form">
+  <i class="fas fa-close" id="closePreview"></i>
+        <h3>Deposit ${user.username}</h3>
+        <input
+          type="number"
+          name="amount"
+          id="amount"
+          placeholder="$0.00"
+          min="0"
+        />
+        <button id="proceed">Deposit</button>
+      </div>`;
+  const proceed = document.getElementById("proceed");
+  proceed.addEventListener("click", async () => {
+    proceed.textContent = "Processing...";
+    const response = await fetch(`${location.origin}/credit`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        id: user.id,
+        amount: document.getElementById("amount").value,
+      }),
+    });
+    const resData = await response.json();
+    console.log(resData);
+    if (resData.stat) {
+      proceed.textContent = "Deposit";
+      previewModal.classList.remove("active");
+      alert(resData.message);
+    } else {
+      alert(resData.message);
+    }
+  });
+  document.getElementById("closePreview").addEventListener("click", () => {
+    previewModal.classList.remove("active");
+  });
+}
+
+async function deleteUser(user) {
+  const res = await sendJSON({ id: user.id }, "/remove-user");
+  if (res.stat) {
+    document.querySelector(".user-preview-con").classList.remove("active");
+    alert(res.message);
+  } else {
+    alert(res.message);
+  }
 }

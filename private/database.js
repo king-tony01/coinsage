@@ -277,3 +277,46 @@ export async function deleteWallet(id) {
     }
   });
 }
+
+export async function creditUser(details) {
+  return new Promise((resolve, reject) => {
+    try {
+      let query = "UPDATE users SET balance = balance + ? WHERE id = ?";
+      myDB.query(
+        query,
+        [details.amount, details.id],
+        function (err, result, fields) {
+          if (err) {
+            reject({
+              stat: false,
+              message: "Problem occured while trying to credit user",
+            });
+          } else {
+            resolve({ stat: true, message: "User credited successfully" });
+          }
+        }
+      );
+    } catch (err) {
+      reject(err);
+    }
+  });
+}
+export async function deleteUser(details) {
+  return new Promise((resolve, reject) => {
+    try {
+      let query = "DELETE FROM users WHERE id = ?";
+      myDB.query(query, [details.id], function (err, result, fields) {
+        if (err) {
+          reject({
+            stat: false,
+            message: "Problem occured while trying to deactivate user",
+          });
+        } else {
+          resolve({ stat: true, message: "User deactivated successfully" });
+        }
+      });
+    } catch (err) {
+      reject(err);
+    }
+  });
+}
