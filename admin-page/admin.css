@@ -477,5 +477,5 @@ footer ul li a:hover {
 }
 
 @media (max-width: 669px;) {
-  body{ width: 100vw; }
+  body{ over-flow: hidden;}
 }
