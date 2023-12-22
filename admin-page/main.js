@@ -15,7 +15,8 @@ tabs.forEach((tab) => {
       </div>`;
         if (all) {
           const { users, revenue, activeInvest, pendingPay } = all;
-          page.innerHTML = `<section class="dashboard">
+          if (users.length > 0) {
+            page.innerHTML = `<section class="dashboard">
         <div class="card">
           <h2>${users.length}</h2>
           <p>Users</p>
@@ -33,6 +34,26 @@ tabs.forEach((tab) => {
           <p>Pending Payments</p>
         </div>
       </section>`;
+          } else {
+            page.innerHTML = `<section class="dashboard">
+        <div class="card">
+          <h2>0</h2>
+          <p>Users</p>
+        </div>
+        <div class="card">
+          <h2>$ 0</h2>
+          <p>Total Revenue</p>
+        </div>
+        <div class="card">
+          <h2>$ 0</h2>
+          <p>Active Investments</p>
+        </div>
+        <div class="card">
+          <h2>0</h2>
+          <p>Pending Payments</p>
+        </div>
+      </section>`;
+          }
         }
         break;
       case "users":

@@ -21,8 +21,9 @@ const myDB = createConnection({
 myDB.connect((err) => {
   if (err) {
     console.log(err);
+  } else {
+    console.log("Connection successful");
   }
-  console.log("Connection successful");
 });
 
 export async function createUser(details) {
@@ -41,7 +42,6 @@ export async function createUser(details) {
             stat: false,
           });
         }
-        console.log(result);
         if (result.length > 0) {
           reject({
             message:
@@ -232,7 +232,6 @@ export async function wallets() {
         throw err;
       } else {
         resolve(results);
-        console.log(results);
       }
     });
   });
