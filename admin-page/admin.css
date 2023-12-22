@@ -33,6 +33,7 @@ body {
   line-height: 1.7;
   color: var(--color-white);
   background: var(--color-bg);
+  max-width: fit-content;
 }
 
 a {
@@ -476,6 +477,6 @@ footer ul li a:hover {
   cursor: pointer;
 }
 
-@media (max-width: 669px;) {
+/*@media (max-width: 669px;) {
   body{ over-flow: hidden;}
-}
+}*/
