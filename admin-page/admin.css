@@ -34,6 +34,7 @@ body {
   color: var(--color-white);
   background: var(--color-bg);
   min-width: fit-content;
+  overflow-x: hidden;
 }
 
 a {
